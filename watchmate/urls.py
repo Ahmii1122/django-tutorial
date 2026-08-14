@@ -21,5 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('movie/', include('watchmate_app.api.urls')),
-    path('watchlist/', include('watchmate_app.api.urls')),
+    path('watch/', include('watchmate_app.api.urls')),
 ]
