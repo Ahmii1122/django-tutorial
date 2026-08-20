@@ -1,6 +1,14 @@
 from rest_framework import serializers
-from watchmate_app.models import Watchlist, StreamPlatform
+from watchmate_app.models import Watchlist, StreamPlatform,Review
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    review_user = serializers.StringRelatedField(read_only=True)
+    
+    class Meta:
+        model = Review
+        # fields = '__all__'
+        exclude = ['watchlist']
 
 # def name_length(value):
 #     if len(value) < 2:
@@ -36,11 +44,12 @@ from watchmate_app.models import Watchlist, StreamPlatform
 
 class WatchlistSerializer(serializers.ModelSerializer):
     # len_name = serializers.SerializerMethodField()
-    
+    reviews = ReviewSerializer(many=True, read_only=True)
     
     class Meta:
         model = Watchlist
         fields = '__all__'
+        
        
         
     # def get_len_name(self,object):
@@ -59,7 +68,13 @@ class WatchlistSerializer(serializers.ModelSerializer):
     
     
 class StreamPlatformSerializer(serializers.ModelSerializer):
+    watchlist = WatchlistSerializer(many=True, read_only=True,)
     
     class Meta:
         model = StreamPlatform
         fields = '__all__'
+        # extra_kwargs = {
+        #     'url': {'view_name': 'streamplatform-detail'},
+        # }
+        
+        
